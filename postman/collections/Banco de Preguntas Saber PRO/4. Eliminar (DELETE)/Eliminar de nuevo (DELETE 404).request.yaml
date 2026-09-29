@@ -1,0 +1,12 @@
+$kind: http-request
+description: "Repite el DELETE sobre un registro ya borrado: debe responder 404 Not Found."
+url: "{{baseUrl}}/api/preguntas/{{id}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 404 Not Found", function () {
+          pm.response.to.have.status(404);
+      });
+    language: text/javascript
+order: 2000

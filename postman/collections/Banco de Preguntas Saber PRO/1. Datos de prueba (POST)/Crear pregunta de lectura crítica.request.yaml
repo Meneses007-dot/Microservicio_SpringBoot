@@ -1,0 +1,30 @@
+$kind: http-request
+description: Ítem de opción múltiple de la competencia Lectura Crítica.
+url: "{{baseUrl}}/api/preguntas"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "titulo": "Idea principal de un texto",
+      "enunciado": "Lea el fragmento y señale la idea principal que sostiene el autor. ¿Cuál es?",
+      "competencia": "Lectura Crítica",
+      "tipo": "SELECCION_MULTIPLE",
+      "opciones": [
+        "El fragmento describe un caso particular",
+        "El autor defiende una tesis sobre la lectura",
+        "El texto es un resumen del argumento central",
+        "La pregunta está mal formulada"
+      ],
+      "respuestaCorrecta": "El autor defiende una tesis sobre la lectura"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+    language: text/javascript
+order: 1000

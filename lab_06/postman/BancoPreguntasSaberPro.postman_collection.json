@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "2980ebac-5f4e-448c-a67b-066a33905fdf",
+		"name": "Banco de Preguntas Saber PRO",
+		"description": "Taller 06 - API REST del banco de preguntas tipo Saber PRO (Spring Boot).\nContiene el CRUD completo: POST, GET (lista y por ID), PUT y DELETE sobre /api/preguntas.\n\nOrden de ejecución: primero la carpeta \"1. Datos de prueba\" (crea los registros), luego \"2. Crear y editar\", después \"3. Consultas\" y por último \"4. Eliminar\". El POST de la carpeta 2 guarda el id devuelto en la variable {{id}} y las demás solicitudes la reutilizan.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Datos de prueba (POST)",
+			"description": "Crea dos preguntas adicionales para que la lista del GET no salga vacía en las capturas del informe. No alteran la variable {{id}}.",
+			"item": [
+				{
+					"name": "Crear pregunta de lectura crítica",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Idea principal de un texto\",\n  \"enunciado\": \"Lea el fragmento y señale la idea principal que sostiene el autor. ¿Cuál es?\",\n  \"competencia\": \"Lectura Crítica\",\n  \"tipo\": \"SELECCION_MULTIPLE\",\n  \"opciones\": [\n    \"El fragmento describe un caso particular\",\n    \"El autor defiende una tesis sobre la lectura\",\n    \"El texto es un resumen del argumento central\",\n    \"La pregunta está mal formulada\"\n  ],\n  \"respuestaCorrecta\": \"El autor defiende una tesis sobre la lectura\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas"
+							]
+						},
+						"description": "Ítem de opción múltiple de la competencia Lectura Crítica."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Responde 201 Created\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Crear pregunta de análisis de caso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Caso de estudio: acceso a servicios de salud\",\n  \"enunciado\": \"Un college del Cauca decide aumentar la cobertura de planificación familiar. Según el caso, ¿cuál es la primera barrera que debe diagnosticar?\",\n  \"competencia\": \"Comprensión Crítica\",\n  \"tipo\": \"ANALISIS_CASO\",\n  \"opciones\": [\n    \"La disponibilidad de insumos en las sucursales\",\n    \"Las barreras de acceso y la información de las estudiantes\",\n    \"El número de sedes del programa\",\n    \"El presupuesto anual asignado\"\n  ],\n  \"respuestaCorrecta\": \"Las barreras de acceso y la información de las estudiantes\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas"
+							]
+						},
+						"description": "Ítem de tipo análisis de caso."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Responde 201 Created\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "2. Crear y editar (POST / PUT)",
+			"description": "El POST guarda el id devuelto en la variable {{id}}; el PUT la reutiliza, por eso debe ejecutarse antes que las consultas y el borrado.",
+			"item": [
+				{
+					"name": "Crear pregunta (POST)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Proporción directa\",\n  \"enunciado\": \"Si 3 cuadernos cuestan 15000 pesos, ¿cuánto cuestan 7 cuadernos?\",\n  \"competencia\": \"Razonamiento Cuantitativo\",\n  \"tipo\": \"SELECCION_MULTIPLE\",\n  \"opciones\": [\n    \"30000\",\n    \"35000\",\n    \"40000\",\n    \"45000\"\n  ],\n  \"respuestaCorrecta\": \"35000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas"
+							]
+						},
+						"description": "Registra una pregunta de opción múltiple. Respuesta esperada: 201 Created con el id asignado."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const pregunta = pm.response.json();",
+									"",
+									"pm.test(\"Responde 201 Created\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"La pregunta creada trae id\", function () {",
+									"    pm.expect(pregunta).to.have.property(\"id\");",
+									"});",
+									"",
+									"pm.test(\"Guarda las 4 opciones del ítem\", function () {",
+									"    pm.expect(pregunta.opciones).to.have.lengthOf(4);",
+									"});",
+									"",
+									"pm.collectionVariables.set(\"id\", pregunta.id);"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Actualizar pregunta (PUT)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Proporción directa (revisada)\",\n  \"enunciado\": \"Si 4 cuadernos cuestan 20000 pesos, ¿cuánto cuestan 7 cuadernos?\",\n  \"competencia\": \"Razonamiento Cuantitativo\",\n  \"tipo\": \"ANALISIS_CASO\",\n  \"opciones\": [\n    \"30000\",\n    \"35000\",\n    \"40000\"\n  ],\n  \"respuestaCorrecta\": \"40000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas",
+								"{{id}}"
+							]
+						},
+						"description": "Edita la pregunta indicada en la URL. El id viaja en la ruta, no en el cuerpo. También reduce las opciones de 4 a 3 para comprobar que el PUT sobrescribe."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const pregunta = pm.response.json();",
+									"",
+									"pm.test(\"Responde 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Queda con el tipo actualizado\", function () {",
+									"    pm.expect(pregunta.tipo).to.eql(\"ANALISIS_CASO\");",
+									"});",
+									"",
+									"pm.test(\"Las opciones se reemplazaron (3)\", function () {",
+									"    pm.expect(pregunta.opciones).to.have.lengthOf(3);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "3. Consultas (GET)",
+			"item": [
+				{
+					"name": "Listar todas las preguntas (GET)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas"
+							]
+						},
+						"description": "Devuelve el arreglo con todas las preguntas archivadas en el banco."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const preguntas = pm.response.json();",
+									"",
+									"pm.test(\"Responde 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"El banco ya tiene preguntas\", function () {",
+									"    pm.expect(preguntas.length).to.be.at.least(3);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Consultar pregunta por ID (GET)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas",
+								"{{id}}"
+							]
+						},
+						"description": "Consulta una sola pregunta. Respuesta esperada: 200 OK."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const pregunta = pm.response.json();",
+									"",
+									"pm.test(\"Responde 200 OK\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Devuelve la pregunta solicitada\", function () {",
+									"    pm.expect(pregunta.id).to.eql(Number(pm.collectionVariables.get(\"id\")));",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Consultar ID inexistente (GET 404)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas/99",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas",
+								"99"
+							]
+						},
+						"description": "Evidencia de que un ID que no está en el banco responde 404 Not Found en lugar de 500."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Responde 404 Not Found\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "4. Eliminar (DELETE)",
+			"item": [
+				{
+					"name": "Eliminar pregunta (DELETE)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas",
+								"{{id}}"
+							]
+						},
+						"description": "Elimina la pregunta. Respuesta esperada: 204 No Content y cuerpo vacío."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Responde 204 No Content\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Eliminar de nuevo (DELETE 404)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/preguntas/{{id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"preguntas",
+								"{{id}}"
+							]
+						},
+						"description": "Repite el DELETE sobre un registro ya borrado: debe responder 404 Not Found."
+					},
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Responde 404 Not Found\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

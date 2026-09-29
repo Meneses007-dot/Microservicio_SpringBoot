@@ -1,0 +1,3 @@
+$kind: collection
+description: Crea dos preguntas adicionales para que la lista del GET no salga vacía en las capturas del informe. No alteran la variable {{id}}.
+order: 1000

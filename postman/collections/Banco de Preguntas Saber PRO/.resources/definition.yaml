@@ -1,0 +1,9 @@
+$kind: collection
+description: |-
+  Taller 06 - API REST del banco de preguntas tipo Saber PRO (Spring Boot).
+  Contiene el CRUD completo: POST, GET (lista y por ID), PUT y DELETE sobre /api/preguntas.
+
+  Orden de ejecución: primero la carpeta "1. Datos de prueba" (crea los registros), luego "2. Crear y editar", después "3. Consultas" y por último "4. Eliminar". El POST de la carpeta 2 guarda el id devuelto en la variable {{id}} y las demás solicitudes la reutilizan.
+variables:
+  baseUrl: http://localhost:8080
+  id: "1"

@@ -1,0 +1,39 @@
+$kind: http-request
+description: Edita la pregunta indicada en la URL. El id viaja en la ruta, no en el cuerpo. También reduce las opciones de 4 a 3 para comprobar que el PUT sobrescribe.
+url: "{{baseUrl}}/api/preguntas/{{id}}"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "titulo": "Proporción directa (revisada)",
+      "enunciado": "Si 4 cuadernos cuestan 20000 pesos, ¿cuánto cuestan 7 cuadernos?",
+      "competencia": "Razonamiento Cuantitativo",
+      "tipo": "ANALISIS_CASO",
+      "opciones": [
+        "30000",
+        "35000",
+        "40000"
+      ],
+      "respuestaCorrecta": "40000"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const pregunta = pm.response.json();
+
+      pm.test("Responde 200 OK", function () {
+          pm.response.to.have.status(200);
+      });
+
+      pm.test("Queda con el tipo actualizado", function () {
+          pm.expect(pregunta.tipo).to.eql("ANALISIS_CASO");
+      });
+
+      pm.test("Las opciones se reemplazaron (3)", function () {
+          pm.expect(pregunta.opciones).to.have.lengthOf(3);
+      });
+    language: text/javascript
+order: 2000

@@ -1,0 +1,30 @@
+$kind: http-request
+description: Ítem de tipo análisis de caso.
+url: "{{baseUrl}}/api/preguntas"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "titulo": "Caso de estudio: acceso a servicios de salud",
+      "enunciado": "Un college del Cauca decide aumentar la cobertura de planificación familiar. Según el caso, ¿cuál es la primera barrera que debe diagnosticar?",
+      "competencia": "Comprensión Crítica",
+      "tipo": "ANALISIS_CASO",
+      "opciones": [
+        "La disponibilidad de insumos en las sucursales",
+        "Las barreras de acceso y la información de las estudiantes",
+        "El número de sedes del programa",
+        "El presupuesto anual asignado"
+      ],
+      "respuestaCorrecta": "Las barreras de acceso y la información de las estudiantes"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+    language: text/javascript
+order: 2000

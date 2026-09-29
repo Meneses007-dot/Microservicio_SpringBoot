@@ -1,0 +1,14 @@
+# Use this workspace to collaborate
+workspace:
+  id: 3b8d5956-2b25-430c-836e-da72931989a1
+
+localResources:
+  collections:
+    - ../lab_06/postman/Banco de Preguntas Saber PRO
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../lab_06/postman/Banco de Preguntas Saber PRO: 2980ebac-5f4e-448c-a67b-066a33905fdf
+    ../postman/collections/Banco de Preguntas Saber PRO: 6952c078-3e36-4e0e-9d14-57c240640fba

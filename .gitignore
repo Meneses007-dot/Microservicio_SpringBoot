@@ -1,0 +1,69 @@
+# ===== Maven / Java =====
+target/
+*.jar
+*.war
+*.ear
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.properties.bak
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# ===== Clases compiladas / IDE =====
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# ===== IntelliJ IDEA =====
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries/
+.idea/**/shelf/
+.idea/**/contentModel.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/mongoSettings.xml
+
+# ===== Eclipse / NetBeans / VS Code =====
+.apt_generated
+.classpath
+.factorypath
+.project
+.springBeans
+.sts4-cache
+nbproject/
+nb-configuration.xml
+.vscode/
+launch.json
+maven-execution-context.xml
+
+# ===== Sistema =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===== Postman =====
+.postman/session
+.postman/cookies
+*.postman_collection.bak.json
+postman/environments/*/local*

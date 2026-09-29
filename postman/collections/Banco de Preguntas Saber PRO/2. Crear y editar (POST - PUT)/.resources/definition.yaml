@@ -1,0 +1,4 @@
+$kind: collection
+name: 2. Crear y editar (POST / PUT)
+description: El POST guarda el id devuelto en la variable {{id}}; el PUT la reutiliza, por eso debe ejecutarse antes que las consultas y el borrado.
+order: 2000

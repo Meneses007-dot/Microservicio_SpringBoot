@@ -1,0 +1,42 @@
+$kind: http-request
+description: "Registra una pregunta de opción múltiple. Respuesta esperada: 201 Created con el id asignado."
+url: "{{baseUrl}}/api/preguntas"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "titulo": "Proporción directa",
+      "enunciado": "Si 3 cuadernos cuestan 15000 pesos, ¿cuánto cuestan 7 cuadernos?",
+      "competencia": "Razonamiento Cuantitativo",
+      "tipo": "SELECCION_MULTIPLE",
+      "opciones": [
+        "30000",
+        "35000",
+        "40000",
+        "45000"
+      ],
+      "respuestaCorrecta": "35000"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const pregunta = pm.response.json();
+
+      pm.test("Responde 201 Created", function () {
+          pm.response.to.have.status(201);
+      });
+
+      pm.test("La pregunta creada trae id", function () {
+          pm.expect(pregunta).to.have.property("id");
+      });
+
+      pm.test("Guarda las 4 opciones del ítem", function () {
+          pm.expect(pregunta.opciones).to.have.lengthOf(4);
+      });
+
+      pm.collectionVariables.set("id", pregunta.id);
+    language: text/javascript
+order: 1000
