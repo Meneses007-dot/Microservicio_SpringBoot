@@ -1,5 +1,5 @@
 # Taller 06 — API REST Banco de Preguntas Saber PRO
-
+Integrantes: Juan Manuel Meneses Daza y Santiago Rodriguez Bolanos
 Microservicio **Spring Boot** que administra un banco de preguntas de opción múltiple (modelo Saber PRO).
 
 ## Requisitos
